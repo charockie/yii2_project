@@ -12,7 +12,7 @@ $this->title = 'One film page';
         <li><h3><?php echo $film->title; ?></h3></li>
         <li><h4>Описание:</h4><?php echo $film->description; ?></li>
         <li><h4>Дата выхода:</h4><?php echo $film->release; ?></li>
-        <li><h4>Продюссер:</h4><?php echo $film->producer; ?></li>
+        <li><h4>Продюссер фильма:</h4><?php echo $film->producer; ?></li>
         <li><h4>Цена:</h4><?php echo $film->price; ?> грн</li>
         <li><h4>Длительность:</h4><?php echo $film->duration; ?></li>
     </ul>

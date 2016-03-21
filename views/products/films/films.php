@@ -21,7 +21,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 <li>
                     <ul class="list-unstyled">
                         <li><h3><a href="<?= yii\helpers\Url::toRoute(['products/one_film/', 'id' => $film->id]) ?>"><?php echo $film->title; ?></a></h3></li>
-                        <li><h4>родюссер:</h4><?php echo $film->producer; ?></li>
+                        <li><h4>Продюссер фильма:</h4><?php echo $film->producer; ?></li>
                         <li><h4>Цена:</h4><?php echo $film->price; ?> грн</li>
                     </ul>
                 </li>

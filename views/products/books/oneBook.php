@@ -12,7 +12,7 @@ $this->title = 'One book page';
         <li><h3><?php echo $book->title; ?></h3></li>
         <li><h4>Описание:</h4><?php echo $book->description; ?></li>
         <li><h4>Дата выхода:</h4><?php echo $book->release; ?></li>
-        <li><h4>Автор:</h4><?php echo $book->producer; ?></li>
+        <li><h4>Автор книги:</h4><?php echo $book->producer; ?></li>
         <li><h4>Цена:</h4><?php echo $book->price; ?> грн</li>
         <li><h4>Страниц:</h4><?php echo $book->pages; ?></li>
     </ul>
