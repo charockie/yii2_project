@@ -73,35 +73,35 @@ class ManagerController extends Controller
 //        }
 
         $dir = dirname(__DIR__).DIRECTORY_SEPARATOR.'public'.DIRECTORY_SEPARATOR.'manager'.DIRECTORY_SEPARATOR;
-        $data = scandir($dir);
-//        unset($data[0], $data[1]);
-
-        $this->tree($data, $dir);
+        $e = [];
+        $r = $this->tree($dir, $e);
+        var_dump($r);
         die;
 
         return $this->render('menu', ['files' => $files, 'folders' => $folders]);
     }
 
-    public function tree($data = null, $dir = null)
+    public function tree($dir = null, $result, $item = null, $i = 0)
     {
+        $dir = $dir.$item;
+        $data = scandir($dir);
+        $result[$i] = $result;
         echo '<ul>';
         foreach($data as $item){
-            if ($item[0] == '' || $item[0] == '.') {
-            }else{
+            if (strpos($item, '.') != 0 || strpos($item, '.') === false) {
                 if (is_dir($dir.$item)) {
-                    $dir = $dir.$item.DIRECTORY_SEPARATOR;
-                    $data = scandir($dir);
-//                    unset($data[0], $data[1]);
-//                    var_dump($dir);
-//                    var_dump($data);
-
-                    $this->tree($data, $dir);
+                    echo '<p>Directory: '.$item.'</p>';
+                    $result[] = $item;
+                    $item .=DIRECTORY_SEPARATOR;
+                    $this->tree($dir, $result, $item, $i++);
                 } else {
-                    echo '<li>'.$item.'</li>';
+                    echo '<li>File: '.$item.'</li>';
+                    $result[] = $item;
                 }
             }
         }
         echo '</ul>';
+        return $result;
     }
 
     public function actionOpen($name)
