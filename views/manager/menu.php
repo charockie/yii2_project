@@ -4,9 +4,12 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 
 
-$this->title = 'Menu';
+$this->title = 'menu';
 $this->params['breadcrumbs'][] = ['label' => 'Manager', 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
+$this->params['breadcrumbs'][] = ['label' => $this->title, 'url' => [$this->title]];
+foreach ($items as $item) {
+    $this->params['breadcrumbs'][] = ['label' => $item, 'url' => Url::to([$this->title, 'item' => $item.'\\'])];
+}
 ?>
 <div class="manager-index">
 
@@ -14,17 +17,10 @@ $this->params['breadcrumbs'][] = $this->title;
     <h3>Содержимое каталога <?= Html::encode($this->title) ?></h3>
 
     <ul>
-        <?php foreach($folders as $folder): ?>
-            <li>
-                <a href="<?= yii\helpers\Url::toRoute(['manager/open/', 'name' => $folder]) ?>"><?= Html::encode($folder) ?></a>
-            </li>
-        <?php endforeach; ?>
-    <?php foreach($files as $file): ?>
-        <li>
-        <a href="<?= yii\helpers\Url::toRoute(['manager/open/', 'name' => $file]) ?>"><?= Html::encode($file) ?></a>
-        </li>
-    <?php endforeach; ?>
+        <p>Список всех файлов и каталогов:</p>
+        <?php print_r($catalog); ?>
     </ul>
+
 
 
 </div>

@@ -2,11 +2,15 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use yii\helpers\Url;
 
 $this->title = $model->title;
 $this->params['breadcrumbs'][] = ['label' => 'Manager', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => 'Menu', 'url' => ['menu']];
-$this->params['breadcrumbs'][] = $this->title;
+$this->params['breadcrumbs'][] = ['label' => 'menu', 'url' => ['menu']];
+foreach ($items as $item) {
+    $this->params['breadcrumbs'][] = ['label' => $item, 'url' => Url::to([$item, 'item' => $item.'\\'])];
+}
+$this->params['breadcrumbs'][] = ['label' => $this->title];
 ?>
 <div class="manager-index">
 
@@ -21,7 +25,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
 
     <div class="form-group">
-        <?= Html::submitButton('Create', ['class' => 'btn btn-primary']) ?>
+        <?= Html::submitButton('Edit/Add', ['class' => 'btn btn-primary']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

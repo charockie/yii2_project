@@ -2,12 +2,12 @@
 
 namespace app\controllers;
 
+use app\models\services\Catalog;
 use app\models\AddFileForm;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
-//use app\models\LoginForm;
 
 
 class ManagerController extends Controller
@@ -53,71 +53,28 @@ class ManagerController extends Controller
         return $this->render('index');
     }
 
-    public function actionMenu()
+    public function actionMenu($item = null)
     {
-//        $dir = dirname(__DIR__).DIRECTORY_SEPARATOR.'public'.DIRECTORY_SEPARATOR.'manager';
-//        $data = scandir($dir);
-//var_dump($data);die;
-//        $files = [];
-//        $folders = [];
-//        foreach($data as $dat) {
-//            if ($dat[0] == '' || $dat[0] == '.'){
-//
-//            }else {
-//                if(strstr($dat, '.')) {
-//                    $files[] = $dat;
-//                }else{
-//                    $folders[] = $dat;
-//                }
-//            }
-//        }
+        $root = dirname(__DIR__).DIRECTORY_SEPARATOR.'public'.DIRECTORY_SEPARATOR.'manager'.DIRECTORY_SEPARATOR;
+        ($item === null) ? $rootDir = $root : $rootDir = $root.$item;
 
-        $dir = dirname(__DIR__).DIRECTORY_SEPARATOR.'public'.DIRECTORY_SEPARATOR.'manager'.DIRECTORY_SEPARATOR;
-        $e = [];
-        $r = $this->tree($dir, $e);
-        var_dump($r);
-        die;
+        if (is_dir($rootDir)) {
+            $catalog = new Catalog();
 
-        return $this->render('menu', ['files' => $files, 'folders' => $folders]);
-    }
+            $items = explode('\\', $item);
+            $result = $catalog->getFolder($rootDir, $item);
+            return $this->render('menu', ['catalog' => $result, 'items' => $items]);
+        } else {
+            $model = New AddFileForm();
 
-    public function tree($dir = null, $result, $item = null, $i = 0)
-    {
-        $dir = $dir.$item;
-        $data = scandir($dir);
-        $result[$i] = $result;
-        echo '<ul>';
-        foreach($data as $item){
-            if (strpos($item, '.') != 0 || strpos($item, '.') === false) {
-                if (is_dir($dir.$item)) {
-                    echo '<p>Directory: '.$item.'</p>';
-                    $result[] = $item;
-                    $item .=DIRECTORY_SEPARATOR;
-                    $this->tree($dir, $result, $item, $i++);
-                } else {
-                    echo '<li>File: '.$item.'</li>';
-                    $result[] = $item;
-                }
-            }
+            $data = file_get_contents($rootDir, true);
+            $model->description = $data;
+
+            $items = explode('\\', $item);
+            $item = array_pop($items);
+            $model->title = $item;
+            return $this->render('file', ['model' => $model, 'file' => $item, 'items' => $items]);
         }
-        echo '</ul>';
-        return $result;
-    }
-
-    public function actionOpen($name)
-    {
-        $model = New AddFileForm();
-
-        $dir = dirname(__DIR__).DIRECTORY_SEPARATOR.'public'.DIRECTORY_SEPARATOR.'manager'.DIRECTORY_SEPARATOR;
-        $dir.= $name;
-        $data = file_get_contents($dir, true);
-
-
-        $model->title = $name;
-        $model->description = $data;
-
-
-        return $this->render('file', ['model' => $model]);
     }
 
 }
