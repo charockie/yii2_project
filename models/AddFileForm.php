@@ -13,7 +13,16 @@ class AddFileForm extends Model
     public function rules()
     {
         return [
-            [['title', 'description'], 'required'],
+            [['title'], 'required'],
+            [['title'], 'match', 'pattern' => '/([0-9a-z]{1,30})\.([0-9a-z]){2,5}/'],
+        ];
+    }
+
+    public function attributeLabels()
+    {
+        return [
+            'title' => 'File name',
+            'description' => 'Content',
         ];
     }
 

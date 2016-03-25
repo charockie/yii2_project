@@ -7,8 +7,12 @@ use yii\helpers\Url;
 $this->title = $model->title;
 $this->params['breadcrumbs'][] = ['label' => 'Manager', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => 'menu', 'url' => ['menu']];
+$url = null;
 foreach ($items as $item) {
-    $this->params['breadcrumbs'][] = ['label' => $item, 'url' => Url::to([$item, 'item' => $item.'\\'])];
+    if(!empty($item)) {
+        $url .= $item . DIRECTORY_SEPARATOR;
+        $this->params['breadcrumbs'][] = ['label' => $item, 'url' => Url::to(['menu', 'item' => $url])];
+    }
 }
 $this->params['breadcrumbs'][] = ['label' => $this->title];
 ?>
@@ -19,7 +23,7 @@ $this->params['breadcrumbs'][] = ['label' => $this->title];
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'title')->textInput(['minlength' => true, 'value' => $model->title]) ?>
+    <?= $form->field($model, 'title')->textInput(['value' => $model->title]) ?>
 
     <?= $form->field($model, 'description')->textarea(['value' => $model->description, 'rows' => 20]) ?>
 

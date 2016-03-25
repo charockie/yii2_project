@@ -51,17 +51,34 @@ class Catalog
     {
         $dir = $item;
         $data = scandir($dir);
-        $result = '<ul class="list-unstyled">';
+//        $result = '<ul class="list-unstyled">';
+        $result = null;
         foreach($data as $item){
             if (strpos($item, '.') != 0 || strpos($item, '.') === false) {
                 if (is_dir($dir.$item)) {
-                    $result .= '<li class="bg-info"><a href="?r=manager%2Fmenu&item='.$it.$item.DIRECTORY_SEPARATOR.'"><span>'.$item.'(Directory)</span></a></li>';
+                    $result .= '<li class="bg-info">
+                                <a href="?r=manager%2Fmenu&item='.$it.$item.DIRECTORY_SEPARATOR.'"><span>'.$item.'(Directory)</span></a>
+                                <a class="btn-danger" href="?r=manager%2Fdelete&item='.$it.$item.'">Delete</a>
+                                </li>';
                 } else {
-                    $result .= '<li class="bg-info"><a href="?r=manager%2Fmenu&item='.$it.$item.'">'.$item.'(File)</a></li>';
+                    $result .= '<li class="bg-info">
+                                <a href="?r=manager%2Fmenu&item='.$it.$item.'">'.$item.'(File)</a>
+                                <a class="btn-danger" href="?r=manager%2Fdelete&item='.$it.$item.'">Delete</a>
+                                </li>';
                 }
             }
         }
-        return $result .= '</ul>';
+//        $result .= '</ul>';
+        return $result;
+    }
+
+    public function getWay($string)
+    {
+        $result = '';
+        foreach ($string as $str){
+            if(!empty($str)) { $result .= $str.DIRECTORY_SEPARATOR; }
+        }
+        return $result;
     }
 
 }
