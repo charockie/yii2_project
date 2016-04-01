@@ -53,12 +53,30 @@ $this->title = 'Say hello page';
 
                 <div class="form-group">
                     <?= Html::submitButton('Зарегатся', ['class' => 'btn btn-primary']) ?>
+
+                    <?= Html::a('Your Link name', ['/site/say'], [
+                    'title' => Yii::t('yii', 'Close'),
+                    'onclick'=>"$('#close').dialog('open');//for jui dialog in my page
+                    $.ajax({
+                    type     :'POST',
+                    cache    : false,
+                    url  : 'controller/action',
+                    success  : function(response) {
+                    $('#close').html(response);
+                    }
+                    });return false;",
+                    ]);
+                    ?>
+
                 </div>
 
                 <?php ActiveForm::end(); ?>
 
             </div>
             <div class="col-lg-4">
+                <input value="Голосовать!" onclick="vote()" type="button" />
+                <div id="vote_status">Здесь будет ответ сервера</div>
+
                 <h2>Данные формы</h2>
 
                 <p>Вы ввели следующую информацию:</p>
